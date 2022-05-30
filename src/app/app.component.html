@@ -1,6 +1,0 @@
-<button (click)="togglePara()">Display Details</button>
-<p [ngClass]="{hide: toggleShow}">You are Always My Love... I miss you Girl</p>
-<div
-         *ngFor="let log of logArr; let id = index"
-         [ngStyle]="{backgroundColor: getColor1(id)}"
-         [ngClass]="{fcolor: getColor(id)}">{{log + ' ' + id}}</div>
