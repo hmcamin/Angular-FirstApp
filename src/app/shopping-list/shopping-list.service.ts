@@ -25,6 +25,9 @@ export class ShoppingListService {
   }
   selectIngredient(index: number){
     this.selectIngredientEvent.next(index);
-
+  }
+  removeIngredient(index: number) {
+    this.ingredients.splice(index,1);
+    this.addIngredientEvent.next(this.ingredients.slice());
   }
 }
