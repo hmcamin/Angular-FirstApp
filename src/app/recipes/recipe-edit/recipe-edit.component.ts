@@ -1,12 +1,13 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
-import {FormArray, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Recipe} from "../recipe.model";
 import {RecipeService} from "../recipe.service";
 
 @Component({
   selector: 'app-recipe-edit',
-  templateUrl: './recipe-edit.component.html'
+  templateUrl: './recipe-edit.component.html',
+  styleUrls: ['./recipe-edit.component.css']
 })
 export class RecipeEditComponent implements OnInit{
   text: string;
@@ -30,32 +31,40 @@ export class RecipeEditComponent implements OnInit{
     if(this.editMode){
       this.recipe = this.recipeService.getRecipesAt(this.id);
       this.form = new FormGroup({
-        'name': new FormControl(this.recipe.name) ,
-        'imageUrl': new FormControl(this.recipe.imagePath) ,
-        'description': new FormControl(this.recipe.description) ,
+        'name': new FormControl(this.recipe.name, Validators.required) ,
+        'imageUrl': new FormControl(this.recipe.imagePath, Validators.required) ,
+        'description': new FormControl(this.recipe.description, Validators.required) ,
         'ingredients': new FormArray([])
       })
       for(let ingredient of this.recipe.ingredients) {
 
         const control = new FormGroup({
-          'name': new FormControl(ingredient.name),
-          'amount': new FormControl(ingredient.amount)
+          'name': new FormControl(ingredient.name, Validators.required),
+          'amount': new FormControl(ingredient.amount,[
+            Validators.required,
+            Validators.pattern(/^[1-9]+[0-9]*$/)]
+          )
         });
         (<FormArray>this.form.get('ingredients')).push(control);
       }
     } else{
       this.form = new FormGroup({
-        'name': new FormControl(null) ,
-        'imageUrl': new FormControl(null) ,
-        'description': new FormControl(null) ,
+        'name': new FormControl(null, Validators.required) ,
+        'imageUrl': new FormControl(null, Validators.required) ,
+        'description': new FormControl(null, Validators.required) ,
         'ingredients': new FormArray([])
       })
     }
   }
   onAddIngredient(){
     (<FormArray>this.form.get('ingredients')).push(new FormGroup({
-      'name': new FormControl(null),
-      'amount': new FormControl(null)
+      'name': new FormControl(null,Validators.required),
+      'amount': new FormControl(null,[
+        Validators.required,
+        Validators.pattern(/^[1-9]+[0-9]*$/)])
     }))
+  }
+  onSubmit(){
+    console.log(this.form)
   }
 }
