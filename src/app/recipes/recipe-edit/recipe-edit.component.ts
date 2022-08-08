@@ -23,6 +23,9 @@ export class RecipeEditComponent implements OnInit{
       this.initForm();
     })
   }
+  get controls(){
+    return (<FormArray>this.form.get('ingredients')).controls;
+  }
   initForm(){
     if(this.editMode){
       this.recipe = this.recipeService.getRecipesAt(this.id);
@@ -48,5 +51,8 @@ export class RecipeEditComponent implements OnInit{
         'ingredients': new FormArray([])
       })
     }
+  }
+  onAddIngredient(){
+
   }
 }
