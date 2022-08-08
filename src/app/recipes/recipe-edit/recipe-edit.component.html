@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-xs-12">
           <button type="submit" class="btn btn-success" [disabled]="!form.valid">Save</button>
-          <button type="button" class="btn btn-danger">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
         </div>
       </div>
       <div class="row">
@@ -18,8 +18,8 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="imageUrl">Image Path</label>
-            <input type="text" id="imageUrl" class="form-control" formControlName="imageUrl">
+            <label for="imagePath">Image Path</label>
+            <input type="text" id="imagePath" class="form-control" formControlName="imagePath">
           </div>
         </div>
       </div>

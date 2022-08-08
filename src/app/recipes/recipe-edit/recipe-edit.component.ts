@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Recipe} from "../recipe.model";
 import {RecipeService} from "../recipe.service";
@@ -15,7 +15,7 @@ export class RecipeEditComponent implements OnInit{
   form: FormGroup;
   recipe: Recipe;
   editMode: boolean;
-  constructor(private activeRoute: ActivatedRoute, private recipeService: RecipeService) {
+  constructor(private activeRoute: ActivatedRoute, private recipeService: RecipeService, private route: Router) {
   }
   ngOnInit() {
     this.activeRoute.params.subscribe((param: Params) => {
@@ -32,8 +32,8 @@ export class RecipeEditComponent implements OnInit{
       this.recipe = this.recipeService.getRecipesAt(this.id);
       this.form = new FormGroup({
         'name': new FormControl(this.recipe.name, Validators.required) ,
-        'imageUrl': new FormControl(this.recipe.imagePath, Validators.required) ,
         'description': new FormControl(this.recipe.description, Validators.required) ,
+        'imagePath': new FormControl(this.recipe.imagePath, Validators.required) ,
         'ingredients': new FormArray([])
       })
       for(let ingredient of this.recipe.ingredients) {
@@ -50,8 +50,8 @@ export class RecipeEditComponent implements OnInit{
     } else{
       this.form = new FormGroup({
         'name': new FormControl(null, Validators.required) ,
-        'imageUrl': new FormControl(null, Validators.required) ,
         'description': new FormControl(null, Validators.required) ,
+        'imagePath': new FormControl(null, Validators.required) ,
         'ingredients': new FormArray([])
       })
     }
@@ -65,15 +65,14 @@ export class RecipeEditComponent implements OnInit{
     }))
   }
   onSubmit(){
-    this.recipe = new Recipe(
-      this.form.get('name').value,
-      this.form.get('description').value,
-      this.form.get('imageUrl').value,
-      this.form.get('ingredients').value)
     if(this.editMode){
-      this.recipeService.updateRecipe(this.id,this.recipe)
+      this.recipeService.updateRecipe(this.id,this.form.value)
     } else {
-      this.recipeService.addRecipe(this.recipe)
+      this.recipeService.addRecipe(this.form.value)
     }
+    this.onCancel();
+  }
+  onCancel(){
+    this.route.navigate(['../../'],{relativeTo: this.activeRoute});
   }
 }

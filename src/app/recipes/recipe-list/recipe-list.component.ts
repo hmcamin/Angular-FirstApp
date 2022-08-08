@@ -17,5 +17,6 @@ export class RecipeListComponent implements OnInit {
     this.recipeArr.updateRecipesEvent.subscribe((recipes: Recipe[]) =>{
       this.recipes = recipes;
     })
+
   }
 }
