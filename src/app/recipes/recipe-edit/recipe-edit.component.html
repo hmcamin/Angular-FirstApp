@@ -23,9 +23,9 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="form.get('imagePath').value">
         <div class="col-xs-12">
-          <img src="" alt="" class="img-responsive">
+          <img style="height: 150px;" [src]="form.get('imagePath').value" alt="" class="img-responsive">
         </div>
       </div>
       <div class="row">
