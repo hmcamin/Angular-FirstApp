@@ -20,6 +20,9 @@ export class RecipeService {
       'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
       [new Ingredient('banana',20), new Ingredient('orange',15)])
   ];
+  setRecipes(recipes: Recipe[]){
+    this.recipes = recipes;
+  }
   getRecipes(){
     return this.recipes.slice();
   }
