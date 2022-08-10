@@ -10,7 +10,7 @@ export class HeaderComponent {
   constructor(private storage: DataStorageService) {
   }
   onFetchData(){
-    this.storage.fetchData();
+    this.storage.fetchData().subscribe();
   }
   onSaveData(){
     this.storage.saveData();
