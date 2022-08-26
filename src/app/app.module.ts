@@ -18,6 +18,7 @@ import {RecipeStartComponent} from "./recipes/recipe-start/recipe-start.componen
 import {RecipeEditComponent} from "./recipes/recipe-edit/recipe-edit.component";
 import {RecipeService} from "./recipes/recipe.service";
 import {HttpClientModule} from "@angular/common/http";
+import {authComponent} from "./auth/auth.component";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {HttpClientModule} from "@angular/common/http";
     ShoppingEditComponent,
     RecipeStartComponent,
     RecipeEditComponent,
+    authComponent,
     headerDirective
   ],
   imports: [
