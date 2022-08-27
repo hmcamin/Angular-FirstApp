@@ -8,6 +8,8 @@ import {AuthService} from "./auth.service";
 })
 export class authComponent {
   isLoginMode = true;
+  isLoading = false;
+  error = null;
   constructor(private authService: AuthService) {
 
   }
@@ -15,6 +17,7 @@ export class authComponent {
     this.isLoginMode = !this.isLoginMode;
   }
   onSubmit(form: NgForm) {
+    this.isLoginMode = true;
     if(!form.value){
       return;
     }
@@ -23,8 +26,9 @@ export class authComponent {
     } else {
       this.authService.singUp(form.value.email, form.value.password).subscribe(resData => {
         console.log(resData);
-      }, error => {
-        console.log(error);
+        this.isLoading = false;
+      }, errorMessage => {
+        this.error = errorMessage ;
       });
       form.resetForm();
     }
