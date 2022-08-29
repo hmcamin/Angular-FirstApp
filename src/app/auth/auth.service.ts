@@ -8,7 +8,7 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
   singUp(email: string, password: string){
-    return this.http.post('signuplink',{email: email, password: password})
+    return this.http.post<string>('signupLink',{email: email, password: password})
       .pipe(catchError(errorRes => {
         let errorMessage = "and error occurred!";
         if(errorRes.error || errorRes.error.error){
@@ -21,5 +21,7 @@ export class AuthService {
         return throwError(errorMessage);
     }));
   }
-
+  login(email: string, password: string) {
+    return this.http.post<string>('loginRequestLink',{email: email, password: password});
+  }
 }
