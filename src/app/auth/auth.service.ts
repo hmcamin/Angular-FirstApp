@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 @Injectable({providedIn: 'root'})
 export class AuthService {
   user = new BehaviorSubject<User>(null);
+  timer: any = null;
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
   }
   singUp(email: string, password: string){
@@ -25,6 +26,11 @@ export class AuthService {
   logout(){
     this.user.next(null);
     this.router.navigate(['/auth']);
+    localStorage.removeItem('userData');
+    if(this.timer){
+      clearTimeout(this.timer);
+    }
+    this.timer = null;
   }
   autoLogin(){
     const userData:{
@@ -38,13 +44,21 @@ export class AuthService {
     }
     const loadedUser = new User(userData.email, +userData.id, userData._token, new Date(userData._expirationDate));
     if(loadedUser.token){
+      const timeToExpire = new Date(userData._expirationDate).getTime() - new Date().getTime();
+      this.autoLogout(timeToExpire);
       this.authService.user.next(loadedUser);
     }
+  }
+  autoLogout(expirationDate: number) {
+    this.timer = setTimeout(()=>{
+      this.logout();
+    }, expirationDate);
   }
   private handleAuthentication(email: string, id: number, token: string, expireIn: number){
     const exDate = new Date(new Date().getTime() + expireIn*1000);
     const user = new User(email, id, token, exDate);
     localStorage.setItem('userData', JSON.stringify(user));
+    this.autoLogout(expireIn*1000)
     this.user.next(user);
   }
   private handleError(errorRes: HttpErrorResponse){
