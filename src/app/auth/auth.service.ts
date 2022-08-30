@@ -26,7 +26,7 @@ export class AuthService {
     const user = new User(email, id, token, exDate);
     this.user.next(user);
   }
-  private static handleError(errorRes: HttpErrorResponse){
+  private handleError(errorRes: HttpErrorResponse){
     let errorMessage = "and error occurred!";
     if(errorRes.error || errorRes.error.error){
       return throwError(errorMessage);
