@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Subject, tap, throwError} from "rxjs";
+import {BehaviorSubject, tap, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {User} from "./user.model";
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  user = new Subject<User>();
+  user = new BehaviorSubject<User>(null);
   constructor(private http: HttpClient) {
   }
   singUp(email: string, password: string){
@@ -26,7 +26,7 @@ export class AuthService {
     const user = new User(email, id, token, exDate);
     this.user.next(user);
   }
-  private handleError(errorRes: HttpErrorResponse){
+  private static handleError(errorRes: HttpErrorResponse){
     let errorMessage = "and error occurred!";
     if(errorRes.error || errorRes.error.error){
       return throwError(errorMessage);
