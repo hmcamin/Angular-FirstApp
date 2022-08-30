@@ -3,11 +3,12 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {BehaviorSubject, tap, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {User} from "./user.model";
+import {Router} from "@angular/router";
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
   user = new BehaviorSubject<User>(null);
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
   }
   singUp(email: string, password: string){
     return this.http.post<User>('signupLink',{email: email, password: password})
@@ -21,9 +22,29 @@ export class AuthService {
         this.handleAuthentication(resData.email, resData.id, resData.token, new Date().getTime() + 24*60*60*1000)
       }));
   }
+  logout(){
+    this.user.next(null);
+    this.router.navigate(['/auth']);
+  }
+  autoLogin(){
+    const userData:{
+      email: string,
+      id: string,
+      _token: string,
+      _expirationDate: string
+    } = JSON.parse(localStorage.getItem('userData'));
+    if(!userData){
+      return;
+    }
+    const loadedUser = new User(userData.email, +userData.id, userData._token, new Date(userData._expirationDate));
+    if(loadedUser.token){
+      this.authService.user.next(loadedUser);
+    }
+  }
   private handleAuthentication(email: string, id: number, token: string, expireIn: number){
     const exDate = new Date(new Date().getTime() + expireIn*1000);
     const user = new User(email, id, token, exDate);
+    localStorage.setItem('userData', JSON.stringify(user));
     this.user.next(user);
   }
   private handleError(errorRes: HttpErrorResponse){

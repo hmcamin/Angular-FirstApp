@@ -12,7 +12,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="isAuthenticated">
-          <a>logout</a>
+          <a (click)="onLogout()">logout</a>
         </li>
         <li class="dropdown" dropDownDir *ngIf="isAuthenticated">
           <a class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
