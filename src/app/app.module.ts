@@ -5,7 +5,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 import {headerDirective} from "./shared/header.directive";
 import {ShoppingListService} from "./shopping-list/shopping-list.service";
 import {AppRouteModule} from "./app-route.module";
@@ -16,15 +15,13 @@ import {AuthInterceptorService} from "./auth/auth-interceptor.service";
 import {AlertComponent} from "./shared/alert/alert.component";
 import {PlaceholderDirective} from "./shared/placeholder/placeholder.directive";
 import {RecipesModule} from "./recipes/recipes.module";
-import {ShoppingListComponent} from "./shopping-list/shopping-list.component";
 import {AuthService} from "./auth/auth.service";
+import {ShoppingListModule} from "./shopping-list/shopping-list.module";
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    ShoppingEditComponent,
-    ShoppingListComponent,
     AuthComponent,
     AlertComponent,
     headerDirective,
@@ -36,7 +33,8 @@ import {AuthService} from "./auth/auth.service";
     ReactiveFormsModule,
     AppRouteModule,
     HttpClientModule,
-    RecipesModule
+    RecipesModule,
+    ShoppingListModule
   ],
   providers: [ShoppingListService,AuthService,RecipeService,{
     provide: HTTP_INTERCEPTORS,
