@@ -5,7 +5,7 @@ import {catchError} from "rxjs/operators";
 import {User} from "./user.model";
 import {Router} from "@angular/router";
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   timer: any = null;
