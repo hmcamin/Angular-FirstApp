@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   timer: any = null;
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
+  constructor(private http: HttpClient, private router: Router) {
   }
   singUp(email: string, password: string){
     return this.http.post<User>('signupLink',{email: email, password: password})
@@ -46,7 +46,7 @@ export class AuthService {
     if(loadedUser.token){
       const timeToExpire = new Date(userData._expirationDate).getTime() - new Date().getTime();
       this.autoLogout(timeToExpire);
-      this.authService.user.next(loadedUser);
+      this.user.next(loadedUser);
     }
   }
   autoLogout(expirationDate: number) {
