@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   selector: "app-auth",
   templateUrl: './auth.component.html'
 })
-export class authComponent {
+export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
   error = null;

@@ -18,8 +18,9 @@ import {RecipeStartComponent} from "./recipes/recipe-start/recipe-start.componen
 import {RecipeEditComponent} from "./recipes/recipe-edit/recipe-edit.component";
 import {RecipeService} from "./recipes/recipe.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {authComponent} from "./auth/auth.component";
+import {AuthComponent} from "./auth/auth.component";
 import {AuthInterceptorService} from "./auth/auth-interceptor.service";
+import {AlertComponent} from "./shared/alert/alert.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {AuthInterceptorService} from "./auth/auth-interceptor.service";
     ShoppingEditComponent,
     RecipeStartComponent,
     RecipeEditComponent,
-    authComponent,
+    AuthComponent,
+    AlertComponent,
     headerDirective
   ],
   imports: [
