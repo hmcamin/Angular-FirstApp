@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Ingredient } from '../../shared/ingredient.model';
-import { ShoppingListService } from '../shopping-list.service';
 import * as shoppingListActions from '../store/shopping-list.actions';
 import * as fromApp from '../../store/app.reducer';
 
@@ -24,7 +23,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editMode = false;
   editedItem: Ingredient;
 
-  constructor(private slService: ShoppingListService, private store: Store<fromApp.AppState>) { }
+  constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.subscription = this.store.select('shoppingList').subscribe(stateData => {
@@ -45,10 +44,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     const value = form.value;
     const newIngredient = new Ingredient(value.name, value.amount);
     if (this.editMode) {
-      // this.slService.updateIngredient(this.editedItemIndex, newIngredient);
       this.store.dispatch(new shoppingListActions.UpdateIngredient(newIngredient));
     } else {
-      // this.slService.addIngredient(newIngredient);
       this.store.dispatch(new shoppingListActions.AddIngredient(newIngredient));
     }
     this.editMode = false;
