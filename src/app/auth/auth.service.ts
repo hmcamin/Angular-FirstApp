@@ -7,7 +7,7 @@ import { throwError, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from './user.model';
 import * as fromApp from '../store/app.reducer';
-import { Login, Logout } from './store/auth.actions';
+import { AutheticateSuccess, Logout } from './store/auth.actions';
 
 export interface AuthResponseData {
   kind: string;
@@ -92,7 +92,7 @@ export class AuthService {
 
     if (loadedUser.token) {
       // this.user.next(loadedUser);
-      this.store.dispatch(new Login({ email: loadedUser.email, userId: loadedUser.id, token: loadedUser.token, expirationDate: new Date(userData._tokenExpirationDate) }));
+      this.store.dispatch(new AutheticateSuccess({ email: loadedUser.email, userId: loadedUser.id, token: loadedUser.token, expirationDate: new Date(userData._tokenExpirationDate) }));
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() -
         new Date().getTime();
@@ -125,7 +125,7 @@ export class AuthService {
   ) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
-    this.store.dispatch(new Login({ email, userId, token, expirationDate}));
+    this.store.dispatch(new AutheticateSuccess({ email, userId, token, expirationDate }));
     // this.user.next(user);
     this.autoLogout(expiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
