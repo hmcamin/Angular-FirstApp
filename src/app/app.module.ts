@@ -7,9 +7,11 @@ import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
-import {StoreModule} from "@ngrx/store";
+import { StoreModule } from "@ngrx/store";
+import { EffectModule } from "@ngrx/effects";
 import { shoppingListReducer } from "./shopping-list/shopping-list.reducer";
 import * as fromApp from './store/app.reducer';
+import { AuthEffects } from './auth/store/auht.effects';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -18,6 +20,7 @@ import * as fromApp from './store/app.reducer';
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot(fromApp.appReducer),
+    EffectModule.forRoot([AuthEffects]),
     SharedModule,
     CoreModule
   ],
