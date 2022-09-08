@@ -53,7 +53,7 @@ return of(new AuthActions.AuthenticateFail(errorMessage));
 
 @Injectable()
 export class AuthEffects{
-  
+
   @Effect()
   autoLogin = this.actions$.pipe(ofType(AuthActions.AUTO_LOGIN),
     map(() => {
@@ -83,7 +83,7 @@ export class AuthEffects{
           new Date().getTime();
         this.authService.setLogoutTimer(expirationDuration * 1000);
         return new AuthActions.AutheticateSuccess({ email: loadedUser.email, userId: loadedUser.id, token: loadedUser.token, expirationDate: new Date(userData._tokenExpirationDate) });
-        
+
         // this.autoLogout(expirationDuration);
       }
       return {
@@ -106,10 +106,10 @@ export class AuthEffects{
           }
       ).pipe(
         tap(resData => {
-          this.authService.setLogoutTimer(resData.expiresIn * 1000);
+          this.authService.setLogoutTimer(+resData.expiresIn * 1000);
         }),
         map(resData => {
-          return handleAuthentication(+resData.exiresIn, resData.email, resData.localId, resData.idToken);
+          return handleAuthentication(+resData.expiresIn, resData.email, resData.localId, resData.idToken);
         }),
         catchError(errorRes => {
           return handleError(errorRes);
@@ -132,10 +132,10 @@ export class AuthEffects{
           }
       ).pipe(
         tap(resData => {
-          this.authService.setLogoutTimer(resData.expiresIn * 1000);
+          this.authService.setLogoutTimer(+resData.expiresIn * 1000);
         }),
           map(resData => {
-            return handleAuthentication(+resData.exiresIn, resData.email, resData.localId, resData.idToken);
+            return handleAuthentication(+resData.expiresIn, resData.email, resData.localId, resData.idToken);
           }),
           catchError(errorRes => {
             return handleError(errorRes);
