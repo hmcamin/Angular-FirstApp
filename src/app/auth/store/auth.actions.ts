@@ -9,13 +9,14 @@ export const CLEAR_ERROR = '[auth] clear error';
 export const AUTO_LOGIN = '[auth] auto login';
 export const SIGNUP_START= '[auth] signup start';
 
-export class AutheticateSuccess implements Action {
+export class AuthenticateSuccess implements Action {
   readonly type = AUTHENTICATE_SUCCESS;
   constructor(public payload: {
     email: string,
     userId: string,
     token: string,
-    expirationDate: Date
+    expirationDate: Date,
+    redirect: Boolean
   }) {}
 }
 export class Logout implements Action {
@@ -39,4 +40,4 @@ export class ClearError implements Action {
 export class AutoLogin implements Action {
   readonly type = AUTO_LOGIN;
 }
-export type AuthActions = AutheticateSuccess | Logout | LoginStart | AuthenticateFail | SignupStart | ClearError | AutoLogin;
+export type AuthActions = AuthenticateSuccess | Logout | LoginStart | AuthenticateFail | SignupStart | ClearError | AutoLogin;
